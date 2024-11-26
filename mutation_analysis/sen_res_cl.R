@@ -1,0 +1,30 @@
+#!/usr/bin/Rscript
+library(data.table)
+a<- read.table('all_common_drugs_cl_ic50.csv', header=T, check.names=F, sep=',', row.names=1)
+a<- t(a)
+a<- data.frame(a)
+a<- setDT(a, keep.rownames = TRUE)[]
+a$`s_-5`<- rowSums(a[,c(2:11)]<= -5)
+a$`r_-5`<- rowSums(a[,c(2:11)]> -5)
+a$`s_-4`<- rowSums(a[,c(2:11)]<= -4)
+a$`r_-4`<- rowSums(a[,c(2:11)]> -4)
+a$`s_-3`<- rowSums(a[,c(2:11)]<= -3)
+a$`r_-3`<- rowSums(a[,c(2:11)]> -3)
+a$`s_-2`<- rowSums(a[,c(2:11)]<= -2)
+a$`r_-2`<- rowSums(a[,c(2:11)]> -2)
+a$`s_-1`<- rowSums(a[,c(2:11)]<= -1)
+a$`r_-1`<- rowSums(a[,c(2:11)]> -1)
+a$s_0<- rowSums(a[,c(2:11)]<= 0)
+a$r_0<- rowSums(a[,c(2:11)]> 0)
+a$s_1<- rowSums(a[,c(2:11)]<= 1)
+a$r_1<- rowSums(a[,c(2:11)]> 1)
+a$s_2<- rowSums(a[,c(2:11)]<= 2)
+a$r_2<- rowSums(a[,c(2:11)]> 2)
+a$s_3<- rowSums(a[,c(2:11)]<= 3)
+a$r_3<- rowSums(a[,c(2:11)]> 3)
+a$s_4<- rowSums(a[,c(2:11)]<= 4)
+a$r_4<- rowSums(a[,c(2:11)]> 4)
+
+df<- a[,-c(2:11)]
+
+write.table(df, 'sens_res_table_cl.csv', row.names=F, sep=',')
